@@ -1,4 +1,4 @@
-import getTodosPosts from "../models/postsModel.js";
+import {getTodosPosts, criarPost} from "../models/postsModel.js";
 
 export  async function listarPosts(req, res) {
     try {
@@ -7,5 +7,16 @@ export  async function listarPosts(req, res) {
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Erro ao listar posts' });
+    }
+}
+
+export async function postarNovoPost(req,res) {
+    const novoPost = req.body
+    try{
+        const postCriado = await criarPost(novoPost)
+        res.status(200).json(postCriado)    
+    }catch (error){
+        console.error(error)
+        res.status(500).json({ error: 'Erro ao adicionar posts' });
     }
 }
