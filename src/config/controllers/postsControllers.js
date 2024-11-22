@@ -1,5 +1,5 @@
 import {getTodosPosts, criarPost } from "../models/postsModel.js";
-
+import fs from "fs";
 export  async function listarPosts(req, res) {
     try {
       const posts = await getTodosPosts();
@@ -21,6 +21,7 @@ export async function postarNovoPost(req, res) {
         res.status(500).json({"Erro":"Falha na requisição"})
     }
 }
+
 
 
 export async function uploadImagem(req, res) {
