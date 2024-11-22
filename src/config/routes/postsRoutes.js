@@ -8,7 +8,7 @@ const routes = (app) =>{
     
     app.get("/posts",listarPosts)
 
-    app.post("/post",postarNovoPost)
+    app.post("/post", postarNovoPost)
 }
 
 
