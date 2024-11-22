@@ -1,31 +1,40 @@
-import express from "express"
-import multer from "multer"
-import { listarPosts, postarNovoPost, uploadImagem } from "../controllers/postsControllers.js"
+import express from "express";
+import multer from "multer";
+import { listarPosts, postarNovoPost, uploadImagem, atualizarNovoPost } from "../controllers/postsControllers.js";
+import cors from "cors";
+
+const corsOption = {
+  origin: "http://localhost:8000",
+  optionsSuccessStatus: 200
+};
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      // Especifica o diretório para armazenar as imagens enviadas
-      cb(null, 'uploads/'); // Substitua por seu caminho de upload desejado
+      // Specify the directory to store uploaded images
+      cb(null, 'uploads/');
     },
     filename: function (req, file, cb) {
-      // Mantém o nome original do arquivo por simplicidade
-      cb(null, file.originalname); // Considere usar uma estratégia de geração de nomes únicos para produção
+      // Keeps the original file name
+      cb(null, file.originalname);
     }
-  });
-  
+});
+
 const upload = multer({ storage: storage });
 
-const routes = (app) =>{
-    app.use(express.json())
+const routes = (app) => {
+    app.use(express.json());
+    app.use(cors(corsOption));
 
-    app.get("/",(req,res)=>{res.send("Hello, World")})
+    app.get("/", (req, res) => { res.send("Hello, World"); });
     
-    app.get("/posts",listarPosts)
+    app.get("/posts", listarPosts);
 
-    app.post("/post", postarNovoPost)
+    app.post("/post", postarNovoPost);
 
-    app.post("upload", upload.single("imagem"), uploadImagem)
-}
+    // Fix route by adding missing forward slash
+    app.post("/upload", upload.single("imagem"), uploadImagem);
 
+    app.put("/upload/:id", atualizarNovoPost);
+};
 
 export default routes;
