@@ -1,3 +1,4 @@
+import "dotenv/config"
 dotenv.config();
 import dotenv from "dotenv";
 import conectarAoBanco from "../dbconfig.js"
